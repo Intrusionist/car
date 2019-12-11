@@ -29,9 +29,14 @@ implementations:
   - description: Splunk version of the above pseudocode.
     code: |-
       process where subtype.create and
-        (process_name == "wsmprovhost.exe" and parent_process_name == "svchost.exe")    
+        (process_name == "wsmprovhost.exe" and parent_process_name == "svchost.exe")
     type: EQL
     data_model: EQL native
+  - description: DNIF version of the above pseudocode.
+      code: |-
+      _fetch * from event where $LogName=WINDOWS-SYSMON AND $EventID=1 AND $App=wsmprovhost.exe AND $ParentProcess=regex(.*svchost.exe.*)i limit 100
+      type: DNIF
+      data_model: Sysmon native
 data_model_references:
   - process/create/exe
   - process/create/parent_exe
