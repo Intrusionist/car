@@ -84,6 +84,11 @@ implementations:
         (process_name == "hostname.exe" or process_name == "ipconfig.exe" or process_name == "net.exe" or process_name == "quser.exe" process_name == "qwinsta.exe" or process_name == "systeminfo.exe" or process_name == "tasklist.exe" or process_name == "whoami.exe" or (process_name == "sc.exe" and (command_line == "* query *" or command_line == "* qc *")))
     type: EQL
     data_mode: EQL native
+  - description: DNIF version of the above pseudocode.
+      code: |-
+      _fetch * from event where $LogName=WINDOWS-SYSMON AND $EventID=1 AND $Process=regex(.*(hostname\.exe|ipconfig\.exe|net.exe|quser\.exe|qwinsta\.exe|sc.*(?:query|qc)|systeminfo\.exe|tasklist\.exe|whoami\.exe).*)i limit 100
+      type: DNIF
+      data_model: Sysmon native
 data_model_references:
   - process/create/command_line
   - process/create/exe
