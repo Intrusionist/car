@@ -26,6 +26,11 @@ implementations:
   - name: Sigma rule (Security log)
     description: '[Sigma version](https://github.com/Neo23x0/sigma/blob/master/rules/windows/builtin/win_susp_security_eventlog_cleared.yml) of the above pseudocode, focusing only on the Security log.'
     type: Sigma
+  - description: DNIF version of the above pseudocode.
+      code: |-
+      _fetch * from event where $Action=EVT_LOG_CLRD AND $Duration=1h AND $LogName=WINDOWS-NXLOG-AUDIT AND $Status=PASSED limit 100
+      type: DNIF
+      data_model: Sysmon native
 unit_tests:
   - configurations:
     - Windows 7
